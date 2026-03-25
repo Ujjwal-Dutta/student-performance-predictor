@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import os
 
 # -----------------------------
 # Activation
@@ -13,7 +14,10 @@ def sigmoid(x):
 # -----------------------------
 def train_fcm(csv_path):
 
-    df = pd.read_csv(csv_path)
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(BASE_DIR, csv_path)
+
+    df = pd.read_csv(file_path)
 
     if "Student_ID" in df.columns:
         df = df.drop(columns=["Student_ID"])
@@ -21,10 +25,9 @@ def train_fcm(csv_path):
     # Normalize
     df = (df - df.min()) / (df.max() - df.min())
 
-    X = df.iloc[:, :-1].values   # inputs
-    y = df.iloc[:, -1].values   # Academic_Performance
+    X = df.iloc[:, :-1].values
+    y = df.iloc[:, -1].values
 
-    # Learn weights by least squares
     W = np.linalg.lstsq(X, y, rcond=None)[0]
 
     return W
