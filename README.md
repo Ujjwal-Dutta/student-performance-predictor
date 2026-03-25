@@ -1,4 +1,3 @@
-# student-performance-predictor
 
 # Student Academic Performance Predictor
 
